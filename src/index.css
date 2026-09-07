@@ -1,0 +1,264 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #050505;
+  --color-foreground: #33ff00;
+  --color-accent: #ffcc00;
+  --color-danger: #ff3333;
+  --color-warning: #ffaa00;
+  --color-info: #00ccff;
+  --color-muted: #666666;
+  --color-panel: #0a0f0a;
+  --color-panel-border: #1a331a;
+  --font-mono: "Courier New", "Consolas", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: #000;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-mono);
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  text-align: left;
+  border: none;
+  min-height: 100svh;
+}
+
+/* CRT Scanlines */
+.crt-scanlines::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.08),
+    rgba(0, 0, 0, 0.08) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+}
+
+/* Text glow */
+.text-glow {
+  text-shadow: 
+    0 0 2px var(--color-foreground),
+    0 0 8px rgba(51, 255, 0, 0.6),
+    0 0 16px rgba(51, 255, 0, 0.3);
+}
+
+.text-glow-amber {
+  text-shadow: 
+    0 0 2px var(--color-accent),
+    0 0 8px rgba(255, 204, 0, 0.6),
+    0 0 16px rgba(255, 204, 0, 0.3);
+}
+
+.text-glow-red {
+  text-shadow: 
+    0 0 2px var(--color-danger),
+    0 0 8px rgba(255, 51, 51, 0.6),
+    0 0 16px rgba(255, 51, 51, 0.3);
+}
+
+.text-glow-cyan {
+  text-shadow: 
+    0 0 2px var(--color-info),
+    0 0 8px rgba(0, 204, 255, 0.6),
+    0 0 16px rgba(0, 204, 255, 0.3);
+}
+
+/* Panel styling */
+.osiris-panel {
+  background: var(--color-panel);
+  border: 1px solid var(--color-panel-border);
+  box-shadow: 
+    inset 0 0 20px rgba(51, 255, 0, 0.05),
+    0 0 10px rgba(51, 255, 0, 0.1);
+  position: relative;
+}
+
+.osiris-panel::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-foreground), transparent);
+  opacity: 0.5;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-panel-border);
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-foreground);
+}
+
+/* Button styling */
+.osiris-btn {
+  background: transparent;
+  border: 1px solid var(--color-panel-border);
+  color: var(--color-foreground);
+  padding: 8px 16px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.osiris-btn:hover {
+  background: rgba(51, 255, 0, 0.1);
+  border-color: var(--color-foreground);
+  box-shadow: 0 0 10px rgba(51, 255, 0, 0.2);
+}
+
+.osiris-btn-danger {
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+}
+
+.osiris-btn-danger:hover {
+  background: rgba(255, 51, 51, 0.1);
+  border-color: var(--color-danger);
+  box-shadow: 0 0 10px rgba(255, 51, 51, 0.3);
+}
+
+.osiris-btn-amber {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.osiris-btn-amber:hover {
+  background: rgba(255, 204, 0, 0.1);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 10px rgba(255, 204, 0, 0.3);
+}
+
+/* Terminal window */
+.terminal-window {
+  background: rgba(5, 5, 5, 0.95);
+  border: 1px solid var(--color-panel-border);
+  box-shadow: 
+    inset 0 0 30px rgba(51, 255, 0, 0.05),
+    0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+.terminal-header {
+  background: linear-gradient(90deg, var(--color-panel-border), transparent);
+  padding: 4px 12px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--color-muted);
+  border-bottom: 1px solid var(--color-panel-border);
+}
+
+/* Data table */
+.osiris-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.osiris-table th {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid var(--color-panel-border);
+  color: var(--color-muted);
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.osiris-table td {
+  padding: 8px;
+  border-bottom: 1px solid rgba(26, 51, 26, 0.5);
+}
+
+.osiris-table tr:hover td {
+  background: rgba(51, 255, 0, 0.05);
+}
+
+/* Status indicators */
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-online { background: var(--color-foreground); box-shadow: 0 0 6px var(--color-foreground); }
+.status-warning { background: var(--color-warning); box-shadow: 0 0 6px var(--color-warning); }
+.status-danger { background: var(--color-danger); box-shadow: 0 0 6px var(--color-danger); }
+.status-info { background: var(--color-info); box-shadow: 0 0 6px var(--color-info); }
+
+/* Threat pulse */
+@keyframes threat-pulse {
+  0%, 100% { 
+    box-shadow: 0 0 0 0 rgba(255, 51, 51, 0.7);
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 0 0 0 10px rgba(255, 51, 51, 0);
+    transform: scale(1.05);
+  }
+}
+
+.threat-pulse {
+  animation: threat-pulse 1.5s infinite;
+}
+
+/* Selection color */
+::selection {
+  background: rgba(51, 255, 0, 0.3);
+  color: #fff;
+}
+
+/* Noise overlay */
+.crt-noise::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
