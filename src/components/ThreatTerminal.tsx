@@ -18,11 +18,16 @@ const SEVERITY_COLORS = {
   low: "text-[#33ff00] border-[#33ff00]",
 };
 
-export default function ThreatTerminal() {
+interface ThreatTerminalProps {
+  onDefconChange?: (active: boolean) => void;
+}
+
+export default function ThreatTerminal({ onDefconChange }: ThreatTerminalProps) {
   const [events, setEvents] = useState<ThreatEvent[]>([]);
   const [malwareCount, setMalwareCount] = useState(423);
   const [filter, setFilter] = useState<string>("all");
   const scrollRef = useRef<HTMLDivElement>(null);
+  const prevCriticalRef = useRef(0);
 
   useEffect(() => {
     setEvents(generateThreatFeed(15));
@@ -46,6 +51,16 @@ export default function ThreatTerminal() {
     }
   }, [events]);
 
+  // DEFCON trigger logic
+  useEffect(() => {
+    const criticalCount = events.filter(e => e.severity === "critical").length;
+    const defconActive = criticalCount > 3;
+    if (onDefconChange && criticalCount !== prevCriticalRef.current) {
+      prevCriticalRef.current = criticalCount;
+      onDefconChange(defconActive);
+    }
+  }, [events, onDefconChange]);
+
   const filteredEvents = filter === "all" ? events : events.filter(e => e.type === filter);
   
   const stats = {
@@ -55,21 +70,23 @@ export default function ThreatTerminal() {
     total: events.length,
   };
 
+  const defconActive = stats.critical > 3;
+
   return (
     <div className="h-full flex flex-col gap-4">
-      <div className="osiris-panel p-4">
+      <div className={`osiris-panel p-4 ${defconActive ? "defcon-pulse-border" : ""}`}>
         <div className="flex items-center gap-3 mb-4">
-          <Shield size={20} className="text-[#ff3333]" />
+          <Shield size={20} className={defconActive ? "text-[#ff3333] animate-pulse" : "text-[#ff3333]"} />
           <div>
-            <div className="text-lg font-bold text-glow-red tracking-wider">THREAT INTEL TERMINAL</div>
+            <div className={`text-lg font-bold tracking-wider ${defconActive ? "text-glow-red defcon-strobe" : "text-glow-red"}`}>THREAT INTEL TERMINAL</div>
             <div className="text-[10px] text-[#666] uppercase tracking-[3px]">Live Cyber Threat Intelligence</div>
           </div>
         </div>
         
         <div className="grid grid-cols-5 gap-3">
-          <div className="osiris-panel p-2 text-center">
+          <div className={`osiris-panel p-2 text-center ${defconActive && stats.critical > 0 ? "defcon-pulse-border" : ""}`}>
             <div className="text-[10px] text-[#666] uppercase">Critical</div>
-            <div className="text-xl font-bold text-glow-red">{stats.critical}</div>
+            <div className={`text-xl font-bold ${defconActive ? "text-glow-red defcon-strobe" : "text-glow-red"}`}>{stats.critical}</div>
           </div>
           <div className="osiris-panel p-2 text-center">
             <div className="text-[10px] text-[#666] uppercase">High</div>
@@ -104,7 +121,7 @@ export default function ThreatTerminal() {
 
       <div ref={scrollRef} className="osiris-panel flex-1 overflow-auto">
         <div className="terminal-header flex items-center gap-2">
-          <AlertTriangle size={12} className="text-[#ff3333] animate-pulse" />
+          <AlertTriangle size={12} className={`${defconActive ? "text-[#ff3333] animate-pulse" : "text-[#ff3333]"}`} />
           LIVE THREAT FEED
         </div>
         <div className="p-2 space-y-1">

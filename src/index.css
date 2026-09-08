@@ -243,7 +243,89 @@ body {
   animation: threat-pulse 1.5s infinite;
 }
 
-/* Selection color */
+/* DEFCON Theme Overrides — when body has .defcon-active, flip green → red */
+body.defcon-active .text-\[\#33ff00\] { color: #ff3333 !important; }
+body.defcon-active .text-glow { text-shadow: 0 0 2px #ff3333, 0 0 8px rgba(255,51,51,0.6), 0 0 16px rgba(255,51,51,0.3) !important; }
+body.defcon-active .border-\[\#1a331a\] { border-color: #331a1a !important; }
+body.defcon-active .border-\[\#33ff00\] { border-color: #ff3333 !important; }
+body.defcon-active .bg-\[\#33ff00\]\/10 { background-color: rgba(255,51,51,0.1) !important; }
+body.defcon-active .bg-\[\#33ff00\]\/5 { background-color: rgba(255,51,51,0.05) !important; }
+body.defcon-active .hover\:text-\[\#33ff00\]:hover { color: #ff3333 !important; }
+body.defcon-active .hover\:bg-\[\#33ff00\]\/5:hover { background-color: rgba(255,51,51,0.05) !important; }
+body.defcon-active .hover\:bg-\[\#33ff00\]\/10:hover { background-color: rgba(255,51,51,0.1) !important; }
+body.defcon-active .hover\:border-\[\#33ff00\]:hover { border-color: #ff3333 !important; }
+body.defcon-active .osiris-panel {
+  border-color: #331a1a;
+  box-shadow: inset 0 0 20px rgba(255,51,51,0.05), 0 0 10px rgba(255,51,51,0.1);
+}
+body.defcon-active .osiris-panel::before {
+  background: linear-gradient(90deg, transparent, #ff3333, transparent);
+}
+body.defcon-active .osiris-btn:hover {
+  background: rgba(255,51,51,0.1);
+  border-color: #ff3333;
+  box-shadow: 0 0 10px rgba(255,51,51,0.2);
+}
+body.defcon-active .terminal-window {
+  box-shadow: inset 0 0 30px rgba(255,51,51,0.05), 0 0 20px rgba(0,0,0,0.8);
+}
+body.defcon-active .status-online {
+  background: #ff3333;
+  box-shadow: 0 0 6px #ff3333;
+}
+body.defcon-active ::selection {
+  background: rgba(255,51,51,0.3);
+}
+body.defcon-active .osiris-table tr:hover td {
+  background: rgba(255,51,51,0.05);
+}
+body.defcon-active .terminal-header {
+  background: linear-gradient(90deg, #331a1a, transparent);
+}
+body.defcon-active .osiris-panel p-4 .text-\[\#ffcc00\] {
+  color: #ff6666 !important;
+}
+
+/* DEFCON Animations */
+@keyframes defcon-pulse-border {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,51,51,0.7), inset 0 0 20px rgba(255,51,51,0.1); }
+  50% { box-shadow: 0 0 0 15px rgba(255,51,51,0), inset 0 0 40px rgba(255,51,51,0.2); }
+}
+
+@keyframes defcon-strobe {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+.defcon-pulse-border {
+  animation: defcon-pulse-border 1s infinite;
+}
+
+.defcon-strobe {
+  animation: defcon-strobe 0.5s infinite;
+}
+
+/* Voice command active indicator */
+@keyframes voice-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(51,255,0,0.7); }
+  50% { box-shadow: 0 0 0 8px rgba(51,255,0,0); }
+}
+
+.voice-active {
+  animation: voice-pulse 1.5s infinite;
+  color: #33ff00 !important;
+}
+
+/* DEFCON scanline tint */
+body.defcon-active .crt-scanlines::before {
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 0, 0, 0.06),
+    rgba(255, 0, 0, 0.06) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+}
 ::selection {
   background: rgba(51, 255, 0, 0.3);
   color: #fff;

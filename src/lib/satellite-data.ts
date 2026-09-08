@@ -129,19 +129,24 @@ export function propagateSatellite(sat: SatelliteData, date: Date = new Date()):
   try {
     const satrec = satellite.twoline2satrec(sat.tleLine1, sat.tleLine2);
     const positionAndVelocity = satellite.propagate(satrec, date);
-    
+
     if (!positionAndVelocity || typeof positionAndVelocity.position === "boolean") {
-      return { lat: 0, lng: 0, alt: 0 };
+      throw new Error("propagation failed");
     }
-    
+
     const gmst = satellite.gstime(date);
     const position = satellite.eciToGeodetic(positionAndVelocity.position, gmst);
-    
-    return {
-      lat: satellite.degreesLat(position.latitude),
-      lng: satellite.degreesLong(position.longitude),
-      alt: position.height * 6371,
-    };
+
+    const lat = satellite.degreesLat(position.latitude);
+    const lng = satellite.degreesLong(position.longitude);
+    const alt = position.height; // km above surface
+
+    // Fabricated/decayed TLEs can yield non-finite or absurd results — reject them.
+    if (!Number.isFinite(lat) || !Number.isFinite(lng) || !Number.isFinite(alt) || alt < 100 || alt > 60000) {
+      throw new Error("implausible position");
+    }
+
+    return { lat, lng, alt };
   } catch {
     const t = date.getTime() / 1000;
     const period = sat.period * 60;
