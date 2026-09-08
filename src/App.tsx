@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import Sidebar from "./components/Sidebar";
 import BootSequence from "./components/BootSequence";
 import SatellitePanel from "./components/SatellitePanel";
+import IntelMap from "./components/IntelMap";
 import ThreatTerminal from "./components/ThreatTerminal";
 import RedTeamSim from "./components/RedTeamSim";
 import ISSTracker from "./components/ISSTracker";
@@ -111,7 +112,8 @@ function App() {
         <div className={`h-10 border-b border-[#1a331a] flex items-center justify-between px-4 bg-[#0a0f0a] ${defconActive ? "defcon-pulse-border" : ""}`}>
           <div className="flex items-center gap-4">
             <span className="text-[10px] text-[#666] uppercase tracking-[3px]">
-              {activeView === "dashboard" && "Command Center"}
+              {activeView === "dashboard" && "Intel Map"}
+              {activeView === "globe" && "Orbital Globe"}
               {activeView === "constellation" && "Constellation Overlord"}
               {activeView === "iss" && "ISS Tracker"}
               {activeView === "threats" && "Threat Intelligence"}
@@ -152,40 +154,34 @@ function App() {
         </div>
 
         <div className="flex-1 overflow-hidden">
-          {/* Dashboard / Globe view */}
+          {/* Intel Map (main view) */}
           {activeView === "dashboard" && (
             <div className="h-full flex">
               <div className="flex-1 relative">
-                <Globe 
-                  selectedSatellite={selectedSatellite} 
+                <IntelMap
+                  selectedSatellite={selectedSatellite}
                   onSatelliteSelect={handleSatelliteSelect}
-                  showConflicts={true}
-                  showMigration={true}
                 />
-                <div className="absolute top-4 left-4 pointer-events-none">
-                  <div className="text-[10px] text-[#666] uppercase tracking-wider mb-1">Active Satellites</div>
-                  <div className="text-2xl font-bold text-glow">4,892</div>
-                </div>
-                <div className="absolute bottom-4 left-4 pointer-events-none">
-                  <div className="text-[10px] text-[#666] uppercase tracking-wider mb-1">Ground Stations</div>
-                  <div className="text-xl font-bold text-glow-amber">12 Online</div>
-                </div>
-                <div className="absolute top-4 right-4 pointer-events-none text-right">
-                  <div className="text-[10px] text-[#666] uppercase tracking-wider mb-1">Conflict Zones</div>
-                  <div className="text-xl font-bold text-glow-red">{CONFLICT_ZONES.length} Active</div>
-                </div>
-                <div className="absolute bottom-4 right-4 pointer-events-none text-right">
-                  <div className="text-[10px] text-[#666] uppercase tracking-wider mb-1">Migration Routes</div>
-                  <div className="text-xl font-bold text-glow">{MIGRATION_ROUTES.length} Tracked</div>
-                </div>
               </div>
-              
+
               <div className="w-80 border-l border-[#1a331a] bg-[#0a0f0a]">
-                <SatellitePanel 
+                <SatellitePanel
                   selectedSatellite={selectedSatellite}
                   onSelectSatellite={handleSatelliteSelect}
                 />
               </div>
+            </div>
+          )}
+
+          {/* 3D Orbital Globe */}
+          {activeView === "globe" && (
+            <div className="h-full relative">
+              <Globe
+                selectedSatellite={selectedSatellite}
+                onSatelliteSelect={handleSatelliteSelect}
+                showConflicts={true}
+                showMigration={true}
+              />
             </div>
           )}
 

@@ -10,9 +10,10 @@ interface SidebarProps {
 }
 
 const MENU_ITEMS = [
-  { id: "dashboard", label: "Command", icon: Eye },
+  { id: "dashboard", label: "Intel Map", icon: Eye },
+  { id: "globe", label: "Globe 3D", icon: Globe },
   { id: "constellation", label: "Constellation", icon: Satellite },
-  { id: "iss", label: "ISS Tracker", icon: Globe },
+  { id: "iss", label: "ISS Tracker", icon: Eye },
   { id: "threats", label: "Threat Intel", icon: Shield },
   { id: "redteam", label: "Red Team", icon: Crosshair },
   { id: "spaceweather", label: "Space Wx", icon: Sun },

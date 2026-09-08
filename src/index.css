@@ -331,6 +331,84 @@ body.defcon-active .crt-scanlines::before {
   color: #fff;
 }
 
+/* --- Intel map markers --- */
+.osiris-divicon {
+  background: transparent;
+  border: none;
+}
+
+@keyframes mk-pulse-ring {
+  0% { box-shadow: 0 0 0 0 var(--mk-color, #ff3333); }
+  70% { box-shadow: 0 0 0 10px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+.mk-pulse {
+  width: 10px;
+  height: 10px;
+  margin: 4px;
+  border-radius: 50%;
+  background: var(--mk-color, #ff3333);
+  animation: mk-pulse-ring 2s infinite;
+}
+
+.mk-nuke {
+  color: #ffcc00;
+  font-size: 14px;
+  line-height: 16px;
+  text-align: center;
+  text-shadow: 0 0 6px rgba(255, 204, 0, 0.8);
+}
+
+.mk-sat {
+  width: 8px;
+  height: 8px;
+  background: var(--mk-color, #33ff00);
+  box-shadow: 0 0 6px var(--mk-color, #33ff00);
+  transform: rotate(45deg);
+}
+
+/* --- Leaflet dark theme overrides --- */
+.osiris-leaflet {
+  background: #050505;
+  font-family: var(--font-mono);
+}
+
+/* Dark tactical filter for OSM tiles (map mode) */
+.osiris-leaflet .tiles-dark {
+  filter: invert(0.92) hue-rotate(180deg) brightness(0.85) contrast(0.9) saturate(0.35);
+}
+
+.osiris-leaflet .leaflet-control-attribution {
+  background: rgba(5, 5, 5, 0.7);
+  color: #3a5a3a;
+  font-size: 9px;
+}
+
+.osiris-leaflet .leaflet-control-attribution a {
+  color: #5a7a5a;
+}
+
+.osiris-leaflet .leaflet-control-zoom {
+  border: 1px solid #1a331a !important;
+  box-shadow: none;
+}
+
+.osiris-leaflet .leaflet-control-zoom a {
+  background: #050805;
+  color: #33ff00;
+  border-bottom: 1px solid #1a331a;
+}
+
+.osiris-leaflet .leaflet-control-zoom a:hover {
+  background: #0a1a0a;
+  color: #33ff00;
+}
+
+.osiris-leaflet .leaflet-interactive {
+  cursor: pointer;
+}
+
 /* Noise overlay */
 .crt-noise::after {
   content: "";
